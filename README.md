@@ -1,6 +1,7 @@
 # -PHPsql-lentele-salary-skaiciavimas-
 Duomenys paimti iš duomenų bazės MySQL Bazinis atlyginimas centais
-![screencapture-localhost-duombaze-sql1-nd-employee-php-2022-09-07-14_42_57](https://user-images.githubusercontent.com/106965421/188871419-c421cebc-904f-49c9-b1c5-fb4a01afc86b.png)
+![screencapture-localhost-duombaze-sql1-nd-employee-php-2022-09-12-15_34_21](https://user-images.githubusercontent.com/106965421/189654790-b77355f8-903a-4607-a9a4-ad4aad372941.png)
+
 
 
 Paspaudus plačiau apskaičiuoja mokėsčius
