@@ -1,14 +1,24 @@
 <?php
 
+
 include('database.php');
 
-$sql = "SELECT * FROM employees";
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $sql = "DELETE FROM employees WHERE id=?";
+    $pstm = $pdo->prepare($sql);
+    $pstm->execute([$_GET['id']]);
+}
 
+$sql = "SELECT employees.*, positions.name as position_name FROM employees LEFT JOIN positions ON employees.position_id=positions.id";
 $pstm = $pdo->prepare($sql);
-
 $pstm->execute();
 $darbuotojai = $pstm->fetchAll(PDO::FETCH_ASSOC);
 
+
+
+
+
+// echo "lytis". $_POST['gender'];
 
 
 
@@ -31,31 +41,42 @@ $darbuotojai = $pstm->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-center">Darbuotojai</div>
-                    <table class="table table-light table-striped">
-                        <thead>
-                            <tr>
-                                <th>Eil.nr</th>
-                                <th>Vardas</th>
-                                <th>Pavardė</th>
-                                <th>Išsilavinimas</th>
-                                <th>Bazinis atlyginimas</th>
-                                <th>Apie darbuotoją</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($darbuotojai as $darbuotojas) { ?>
-                                <tr>
-                                    <td><?= $darbuotojas['id'] ?></td>
-                                    <td><?= $darbuotojas['name'] ?></td>
-                                    <td><?= $darbuotojas['surname'] ?></td>
-                                    <td><?= $darbuotojas['education'] ?></td>
-                                    <td><?= $darbuotojas['salary'] ?></td>
-                                    <td><a class="btn btn-primary" href="darbuotojas.php?id=<?= $darbuotojas['id'] ?>">Plačiau</a></td>
-                                <?php } ?>
-                                </tr>
-                        </tbody>
-                    </table>
+                    <div>
+                        <table class="table table-light table-striped">
 
+                            <thead>
+                                <tr>
+                                    <th>Eil.nr</th>
+                                    <th>Vardas</th>
+                                    <th>Pavardė</th>
+                                    <th>Išsilavinimas</th>
+                                    <th>Bazinis atlyginimas</th>
+                                    <th>Pareigos</th>
+                                    <th>Apie darbuotoją</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><a href="new.php" class="btn btn-success">Prideti naują darbuotoją</a></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($darbuotojai as $darbuotojas) { ?>
+                                    <tr>
+                                        <td><?= $darbuotojas['id'] ?></td>
+                                        <td><?= $darbuotojas['name'] ?></td>
+                                        <td><?= $darbuotojas['surname'] ?></td>
+                                        <td><?= $darbuotojas['education'] ?></td>
+                                        <td><?= $darbuotojas['salary'] / 100  ?> EUR</td>
+                                        <td><?= $darbuotojas['position_name'] ?></td>
+                                        <td><a class="btn btn-primary" href="darbuotojas.php?id=<?= $darbuotojas['id'] ?>">Plačiau</a></td>
+                                        <td><a href="redaguoti.php?id=<?= $darbuotojas['id'] ?>" class="btn btn-info">Redaguoti</a></td>
+                                        <td><a href="employee.php?action=delete&id=<?= $darbuotojas['id'] ?>" class="btn btn-danger">Ištrinti</a></td>
+                                        <td><a href="add.php?id=<?= $darbuotojas['id'] ?>" class="btn btn-secondary">Prideti projekta</a></td>
+                                    <?php } ?>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
